@@ -1,115 +1,127 @@
-## Self-Attention GAN Implementation
+# Self-Attention GAN (PyTorch)
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![PyTorch](https://img.shields.io/badge/PyTorch-1.10%2B-red)
-![License](https://img.shields.io/badge/License-MIT-green)
+This project implements a **Self-Attention Generative Adversarial Network (SAGAN)** using PyTorch.
+The model is trained on the **CIFAR-10 dataset** and can generate **64×64 RGB images**.
 
-A PyTorch implementation of Self-Attention Generative Adversarial Networks (SAGAN) with experiment tracking using Weights & Biases. This implementation enhances traditional GANs by incorporating self-attention mechanisms to capture long-range dependencies in images.
+## ✨ Features
 
-## 🌟 Key Features
-- Self-Attention layers in both Generator and Discriminator
-- Trained on CIFAR-10 dataset (64x64 color images)
-- Global average pooling for discriminator stability
-- Model saving/loading capabilities
-- Integrated with Weights & Biases for experiment tracking
-- Visualization tools for generated samples
+* Self-Attention mechanism in both **Generator** and **Discriminator**
+* Trains on **CIFAR-10** dataset (resized to 64×64)
+* Uses **WandB** for experiment tracking
+* Saves and reloads trained **Generator** & **Discriminator**
+* Generates and saves sample images
 
-## 🚀 Quick Start
-1. Install dependencies:
+---
+
+## 📦 Requirements
+
+Install the required libraries (auto-installed in Colab):
+
 ```bash
-pip install -r requirements.txt
-```
-
-2. Train the model:
-```python
-python self_attentionn_gan.py
-```
-
-3. Generate samples:
-```python
-# After training, use the saved generator
-generator = Generator(latent_dim=100)
-generator.load_state_dict(torch.load("generator.pth"))
-generator.eval()
-
-# Generate 16 samples
-noise = torch.randn(16, 100, 1, 1)
-fake_images = generator(noise)
-```
-
-## 📊 Project Links
-| Resource | Link |
-|----------|------|
-| **Colab Notebook** | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1bKwvxt9WDf24eERPtgxQEHdEFjPj6C54?usp=sharing)|
-| **Weights & Biases Dashboard** | [![W&B Dashboard](https://img.shields.io/badge/W&B-Dashboard-FFBE00?style=flat&logo=WeightsAndBiases)](https://wandb.ai/your-username/attention-gan) |
-| **GitHub Repository** | [![GitHub](https://img.shields.io/badge/GitHub-Repository-181717?style=flat&logo=GitHub)](https://github.com/your-username/self-attention-gan) |
-
-## 📈 Training Metrics
-Track training progress on Weights & Biases:
-- Generator/Discriminator loss curves
-- Generated image samples
-- Training time statistics
-
-## 🖼️ Sample Outputs
-![Generated Samples](https://via.placeholder.com/400x400?text=Generated+Image+Samples+Here)
-
-## 📁 Project Structure
-```
-├── self_attentionn_gan.py    # Main implementation
-├── requirements.txt          # Python dependencies
-├── generator.pth             # Trained generator weights
-├── discriminator.pth         # Trained discriminator weights
-└── generated_samples/        # Output images
-```
-
-## 🧠 Architecture
-- **Generator**: Transposed convolutions with self-attention
-- **Discriminator**: Convolutional layers with self-attention
-- **Self-Attention Mechanism**: Query-Key-Value attention with residual connection
-
-## 📝 Citation
-If you use this implementation, please cite:
-```bibtex
-@misc{self-attention-gan,
-  author = {Your Name},
-  title = {Self-Attention GAN Implementation},
-  year = {2023},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/your-username/self-attention-gan}}
-}
-```
-
-## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+pip install torch torchvision matplotlib numpy pandas tqdm wandb
 ```
 
 ---
 
-### Key Features of the README:
-1. **Clear Project Description** - Explains what the project does and its key features
-2. **Quick Start Section** - Simple installation and usage instructions
-3. **Prominent Links Section** - Colab, W&B, and GitHub links with badges
-4. **Visual Elements** - Badges for Python/PyTorch versions, sample output placeholder
-5. **Project Structure** - Shows file organization
-6. **Architecture Overview** - Brief description of model components
-7. **Citation & License** - Academic and legal information
+## 🚀 Usage
 
-### Notes:
-1. Replace `your-username` in links with your actual GitHub/W&B usernames
-2. Add actual generated image samples in the `generated_samples/` folder
-3. Consider adding a `LICENSE` file (MIT recommended)
-4. For W&B link, use your actual project URL format: `https://wandb.ai/<username>/<project-name>`
-5. Add a `LICENSE` file if you want to specify licensing terms
+### 1. Run in Google Colab
 
-The README follows best practices with:
-- Clear section headers
-- Visual badges
-- Code examples
-- Link formatting
-- Markdown syntax
-- Placeholder for actual images
-- Citation guidelines
+You can run the full project in Colab here:
+
+👉 [Open in Colab][(https://colab.research.google.com/drive/1bKwvxt9WDf24eERPtgxQEHdEFjPj6C54?usp=sharing)]
+
+---
+
+### 2. Track Training in WandB
+
+This project integrates with **Weights & Biases** for experiment tracking.
+
+👉 [View WandB Dashboard][(https://wandb.ai/punit163-work-student/attention-gan/runs/75y2mu19/workspace?nw=nwuserpunit163work)] 
+
+Example init:
+
+```python
+import wandb
+wandb.init(project="attention-gan")
+```
+
+If you don’t want logging, disable it with:
+
+```python
+wandb.init(mode="disabled")
+```
+
+---
+
+### 3. Train the GAN
+
+Run the script locally or in Colab:
+
+```bash
+python self_attentionn_gan.py
+```
+
+This will:
+
+* Train the GAN for 50 epochs
+* Log losses to WandB
+* Save trained models as:
+
+  * `generator.pth`
+  * `discriminator.pth`
+
+---
+
+### 4. Generate Images
+
+After training:
+
+```python
+import torch
+import torchvision.utils as vutils
+import matplotlib.pyplot as plt
+
+latent_dim = 100
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+from self_attentionn_gan import Generator
+generator = Generator(latent_dim).to(device)
+generator.load_state_dict(torch.load("generator.pth", map_location=device))
+generator.eval()
+
+noise = torch.randn(16, latent_dim, 1, 1, device=device)
+with torch.no_grad():
+    fake_images = generator(noise).cpu()
+
+vutils.save_image(fake_images, "generated_samples.png", normalize=True, nrow=4)
+```
+
+---
+
+### 5. Example Output
+
+Generated images will be saved as **`generated_samples.png`**:
+
+```
+generated_samples.png
+```
+
+---
+
+## 📂 Project Structure
+
+```
+self_attentionn_gan.py   # Main training + generation script
+generator.pth            # Saved Generator model
+discriminator.pth        # Saved Discriminator model
+generated_samples/       # Folder for generated images
+```
+
+---
+
+## 📌 Notes
+
+* Replace the **WandB link** with your actual project dashboard link after the first run.
+* Training on **Colab GPU (T4)** takes \~30-40 minutes for 50 epochs.
+
