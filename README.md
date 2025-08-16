@@ -29,7 +29,7 @@ pip install torch torchvision matplotlib numpy pandas tqdm wandb
 
 You can run the full project in Colab here:
 
-👉 [Open in Colab][(https://colab.research.google.com/drive/1bKwvxt9WDf24eERPtgxQEHdEFjPj6C54?usp=sharing)]
+👉 https://colab.research.google.com/drive/1bKwvxt9WDf24eERPtgxQEHdEFjPj6C54?usp=sharing
 
 ---
 
@@ -37,7 +37,7 @@ You can run the full project in Colab here:
 
 This project integrates with **Weights & Biases** for experiment tracking.
 
-👉 [View WandB Dashboard][(https://wandb.ai/punit163-work-student/attention-gan/runs/75y2mu19/workspace?nw=nwuserpunit163work)] 
+👉 https://wandb.ai/punit163-work-student/attention-gan/runs/75y2mu19/workspace?nw=nwuserpunit163work
 
 Example init:
 
